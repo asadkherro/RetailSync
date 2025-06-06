@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RetailSync.ViewModels.Auth;
 
 namespace RetailSync.Views.Auth
 {
@@ -22,22 +23,19 @@ namespace RetailSync.Views.Auth
         public RegisterWindow()
         {
             InitializeComponent();
+            DataContext = new RegisterViewModel();
         }
         private void SignUpButton_Click(object sender, RoutedEventArgs e)
         {
             
         }
 
-        // Handle hyperlink clicks (terms, privacy policy, etc.)
         private void Hyperlink_Click(object sender, MouseButtonEventArgs e)
         {
-            // Handle clicking on terms, privacy policy links
-            // You could open web browser or show dialog with terms
             MessageBox.Show("Terms and conditions dialog would open here.",
                            "Terms", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Optional: Add enter key handling
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Enter && SignUpButton.IsEnabled)
@@ -45,6 +43,14 @@ namespace RetailSync.Views.Auth
                 SignUpButton_Click(SignUpButton, new RoutedEventArgs());
             }
             base.OnKeyDown(e);
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is RegisterViewModel model && sender is PasswordBox pBox)
+            {
+                model.Password = pBox.Password;
+            }
         }
     }
 }

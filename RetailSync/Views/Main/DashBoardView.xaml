@@ -1,0 +1,277 @@
+﻿<UserControl x:Class="RetailSync.Views.Main.DashBoardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:RetailSync.Views.Main"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1400">
+
+    <UserControl.Resources>
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="LightGray" BlurRadius="15" ShadowDepth="3" Opacity="0.2"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Stat Number Style -->
+        <Style x:Key="StatNumberStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+        </Style>
+
+        <!-- Stat Label Style -->
+        <Style x:Key="StatLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#7F8C8D"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+        </Style>
+
+        <!-- Percentage Style -->
+        <Style x:Key="PercentageStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#27AE60"/>
+            <Setter Property="Margin" Value="5,0,0,0"/>
+        </Style>
+
+        <!-- Menu Button Style -->
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="20,15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                            Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#3A4A6B"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Active Menu Button Style -->
+        <Style x:Key="ActiveMenuButtonStyle" BasedOn="{StaticResource MenuButtonStyle}" TargetType="Button">
+            <Setter Property="Background" Value="#3A4A6B"/>
+        </Style>
+    </UserControl.Resources>
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Header -->
+        <Border Grid.Row="0" Background="White" Padding="20" Margin="0,0,0,10">
+            <Border.Effect>
+                <DropShadowEffect Color="LightGray" BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+            </Border.Effect>
+
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Background="Transparent" BorderThickness="0" Padding="5" Margin="0,0,15,0">
+                        <TextBlock Text="☰" FontSize="18" Foreground="#2C3E50"/>
+                    </Button>
+                    <TextBlock Text="Report statistics" FontSize="16" Foreground="#BDC3C7" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Background="Transparent" BorderThickness="0" Padding="10" Margin="0,0,10,0">
+                        <TextBlock Text="🔍" FontSize="16" Foreground="#7F8C8D"/>
+                    </Button>
+                    <Button Background="Transparent" BorderThickness="0" Padding="10" Margin="0,0,15,0">
+                        <TextBlock Text="🔔" FontSize="16" Foreground="#7F8C8D"/>
+                    </Button>
+
+                    <!-- User Profile -->
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="35" Height="35" CornerRadius="17.5" Background="#E74C3C" Margin="0,0,10,0">
+                            <TextBlock Text="AL" Foreground="White" FontWeight="Bold" 
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Ann Lee" FontSize="14" FontWeight="Medium" Foreground="#2C3E50"/>
+                            <TextBlock Text="▼" FontSize="10" Foreground="#7F8C8D" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Dashboard Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="20">
+
+                <!-- Statistics Cards Row -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Today's Sales -->
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="40" Height="40" CornerRadius="20" Background="#E8F4FD">
+                                    <TextBlock Text="👥" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="15,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="▲" Foreground="#27AE60" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="12%" Style="{StaticResource PercentageStyle}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock Text="30,000" Style="{StaticResource StatNumberStyle}" Foreground="#3498DB"/>
+                            <TextBlock Text="Today's sales" Style="{StaticResource StatLabelStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Today's Total Orders -->
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="40" Height="40" CornerRadius="20" Background="#E8F4FD">
+                                    <TextBlock Text="👥" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="15,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="▲" Foreground="#27AE60" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="12%" Style="{StaticResource PercentageStyle}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock Text="270" Style="{StaticResource StatNumberStyle}" Foreground="#3498DB"/>
+                            <TextBlock Text="Today's total orders" Style="{StaticResource StatLabelStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Today's Revenue -->
+                    <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="40" Height="40" CornerRadius="20" Background="#FDF2E9">
+                                    <TextBlock Text="👥" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="15,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="▲" Foreground="#27AE60" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="12%" Style="{StaticResource PercentageStyle}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock Text="1,000" Style="{StaticResource StatNumberStyle}" Foreground="#E67E22"/>
+                            <TextBlock Text="Today's revenue" Style="{StaticResource StatLabelStyle}"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Today's Customers -->
+                    <Border Grid.Column="3" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="40" Height="40" CornerRadius="20" Background="#FEF9E7">
+                                    <TextBlock Text="👥" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="15,0,0,0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="▲" Foreground="#27AE60" FontSize="12" VerticalAlignment="Center"/>
+                                        <TextBlock Text="12%" Style="{StaticResource PercentageStyle}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <TextBlock Text="100" Style="{StaticResource StatNumberStyle}" Foreground="#F1C40F"/>
+                            <TextBlock Text="Today's customers" Style="{StaticResource StatLabelStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Charts Row -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Bar Chart -->
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,10,0">
+                        <StackPanel>
+                            <Grid Margin="0,0,0,20">
+                                <TextBlock Text="Todays data" FontSize="16" FontWeight="Medium" 
+                                      Foreground="#2C3E50" HorizontalAlignment="Left"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                                        <Rectangle Width="12" Height="12" Fill="#F1C40F" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Order" FontSize="12" Foreground="#7F8C8D"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Width="12" Height="12" Fill="#3498DB" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Sales" FontSize="12" Foreground="#7F8C8D"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- LiveCharts Bar Chart -->
+                            <lvc:CartesianChart x:Name="BarChart" Height="300" Margin="0,10,0,0">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis ShowLabels="False">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator IsEnabled="False"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis ShowLabels="False">
+                                        <lvc:Axis.Separator>
+                                            <lvc:Separator IsEnabled="False"/>
+                                        </lvc:Axis.Separator>
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Pie Chart -->
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="10,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Top selling Products" FontSize="16" FontWeight="Medium" 
+                                  Foreground="#2C3E50" Margin="0,0,0,20"/>
+
+                            <!-- LiveCharts Pie Chart -->
+                            <lvc:PieChart x:Name="PieChart" Height="300" Margin="0,10,0,0"
+                                     InnerRadius="60" StartingRotationAngle="0">
+                            </lvc:PieChart>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

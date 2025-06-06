@@ -174,13 +174,13 @@
                 <!-- Email Field -->
                 <StackPanel Margin="0,0,0,15">
                     <TextBlock Text="Email*" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                    <TextBox x:Name="EmailTextBox" Style="{StaticResource ModernTextBoxStyle}"/>
+                    <TextBox x:Name="EmailTextBox" Text="{Binding Email}" Style="{StaticResource ModernTextBoxStyle}"/>
                 </StackPanel>
 
                 <!-- Password Field -->
                 <StackPanel Margin="0,0,0,20">
                     <TextBlock Text="Password*" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="PasswordBox" Style="{StaticResource ModernPasswordBoxStyle}"/>
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordChanged" Style="{StaticResource ModernPasswordBoxStyle}"/>
                 </StackPanel>
 
                 <!-- Remember Me and Forgot Password -->
@@ -197,7 +197,7 @@
                 </Grid>
 
                 <!-- Login Button -->
-                <Button x:Name="LoginButton" Content="Login" Style="{StaticResource ModernButtonStyle}" 
+                <Button x:Name="LoginButton" Command="{Binding LoginCommand}" Content="Login" Style="{StaticResource ModernButtonStyle}" 
                        Margin="0,0,0,20" Click="LoginButton_Click"/>
 
                 <!-- Register Link -->

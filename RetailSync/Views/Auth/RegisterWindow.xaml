@@ -145,13 +145,13 @@
 
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="First name" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                        <TextBox x:Name="FirstNameTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+                        <TextBox x:Name="FirstNameTextBox" Text="{Binding FirstName}" Style="{StaticResource ModernTextBoxStyle}" 
                             Tag="Enter your name"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Last name" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                        <TextBox x:Name="LastNameTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+                        <TextBox x:Name="LastNameTextBox" Text="{Binding LastName}" Style="{StaticResource ModernTextBoxStyle}" 
                             Tag="minimum 8 characters"/>
                     </StackPanel>
                 </Grid>
@@ -165,20 +165,20 @@
 
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Email" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                        <TextBox x:Name="EmailTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+                        <TextBox x:Name="EmailTextBox" Text="{Binding Email}" Style="{StaticResource ModernTextBoxStyle}" 
                             Tag="Enter your email"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
                         <TextBlock Text="Phone no." FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                        <TextBox x:Name="PhoneTextBox" Style="{StaticResource ModernTextBoxStyle}" 
+                        <TextBox x:Name="PhoneTextBox" Text="{Binding PhoneNumber}" Style="{StaticResource ModernTextBoxStyle}" 
                             Tag="minimum 8 characters"/>
                     </StackPanel>
                 </Grid>
 
                 <StackPanel Margin="0,0,0,20">
                     <TextBlock Text="Password" FontSize="13" Foreground="#2C3E50" Margin="0,0,0,5"/>
-                    <PasswordBox x:Name="PasswordBox" Style="{StaticResource ModernPasswordBoxStyle}"/>
+                    <PasswordBox x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Style="{StaticResource ModernPasswordBoxStyle}"/>
                 </StackPanel>
 
                 <!-- Terms Checkbox -->
@@ -195,7 +195,7 @@
 
                 <!-- Sign Up Button -->
                 <Button x:Name="SignUpButton" Content="Sign up" Style="{StaticResource ModernButtonStyle}" 
-                   Width="100" HorizontalAlignment="Center" Margin="0,0,50,20" Click="SignUpButton_Click"/>
+                   Width="100" HorizontalAlignment="Center" Margin="0,0,50,20" Command="{Binding SignUpCommand}" Click="SignUpButton_Click"/>
 
                 <!-- Login Link -->
                 <TextBlock HorizontalAlignment="Center" FontSize="13" Margin="0,0,50,20" Foreground="#7F8C8D">

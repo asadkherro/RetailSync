@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RetailSync.ViewModels.Auth;
 
 namespace RetailSync.Views.Auth
 {
@@ -24,6 +25,14 @@ namespace RetailSync.Views.Auth
         {
             InitializeComponent();
             AddValidationEvents();
+            DataContext = new LoginViewModel();
+        }
+        private void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel viewModel && sender is PasswordBox pbox)
+            {
+                viewModel.Password = pbox.Password;
+            }
         }
         private void AddValidationEvents()
         {
@@ -55,61 +64,17 @@ namespace RetailSync.Views.Auth
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsFormValid())
-            {
-                string email = EmailTextBox.Text;
-                string password = PasswordBox.Password;
-                bool rememberMe = RememberMeCheckBox.IsChecked == true;
-
-                // Here you would typically:
-                // 1. Send credentials to your API/authentication service
-                // 2. Handle success/error responses
-                // 3. Store authentication tokens if needed
-                // 4. Navigate to main application window
-
-                MessageBox.Show($"Login attempted for: {email}\nRemember me: {rememberMe}",
-                               "Login", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                // For demo purposes, just show success message
-                // In a real app, you'd authenticate and navigate to main window
-                // Example: 
-                // var mainWindow = new MainWindow();
-                // mainWindow.Show();
-                // this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Please enter a valid email and password.",
-                               "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            
         }
 
         private void GoogleSignInButton_Click(object sender, RoutedEventArgs e)
         {
-            // Handle Google Sign In
-            // This would typically integrate with Google OAuth
             MessageBox.Show("Google Sign In would be implemented here.",
                            "Google Sign In", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            // Example implementation would involve:
-            // 1. Initialize Google OAuth client
-            // 2. Redirect to Google sign in
-            // 3. Handle callback with authorization code
-            // 4. Exchange code for access token
-            // 5. Get user profile information
-            // 6. Create/login user in your system
         }
 
         private void ForgotPassword_Click(object sender, MouseButtonEventArgs e)
         {
-            // Handle forgot password
-            // This could open a new window or dialog for password reset
-            MessageBox.Show("Forgot password functionality would be implemented here.",
-                           "Forgot Password", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            // Example: 
-            // var forgotPasswordWindow = new ForgotPasswordWindow();
-            // forgotPasswordWindow.ShowDialog();
         }
 
         private void CreateAccount_Click(object sender, MouseButtonEventArgs e)

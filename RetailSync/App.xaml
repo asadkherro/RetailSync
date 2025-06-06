@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RetailSync"
              xmlns:Views ="clr-namespace:RetailSync.Views.Auth"
-             StartupUri="Views/Auth/LoginWindow.xaml">
+             StartupUri="Views/Auth/RegisterWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>
