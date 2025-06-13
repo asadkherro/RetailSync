@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text;
 using RetailSync_Models.Socket;
 using RetailSync_Models.DbModels;
+using RetailSync_Models;
 
 namespace RetailSync.Socket
 {
@@ -115,26 +116,18 @@ namespace RetailSync.Socket
             throw new Exception(response.Error);
         }
 
-        public async Task<UserModel> AddUserAsync(UserModel user)
+        public async Task<SocketResponse> AddUserAsync(UserModel user)
         {
             var userData = JsonSerializer.Serialize(user);
-            var response = await SendCommandAsync("ADD_USER", userData);
-            if (response.Success)
-            {
-                return JsonSerializer.Deserialize<UserModel>(response.Data);
-            }
-            throw new Exception(response.Error);
+            var response = await SendCommandAsync(ENMsg.ADD_USER.ToString(), userData);
+            return response;
         }
 
-        public async Task<UserModel> LoginUserAsync(string email, string password)
+        public async Task<SocketResponse> LoginUserAsync(string email, string password)
         {
             var loginData = JsonSerializer.Serialize(new LoginModel { Email = email, Password = password} );
-            var response = await SendCommandAsync("LOGIN_USER", loginData);
-            if (response.Success)
-            {
-                return JsonSerializer.Deserialize<UserModel>(response.Data);
-            }
-            throw new Exception(response.Error);
+            var response = await SendCommandAsync(ENMsg.LOGIN_USER.ToString(), loginData);
+            return response;
         }
 
         public async Task DeleteUserAsync(int userId)

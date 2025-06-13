@@ -79,7 +79,6 @@ namespace RetailSync.Views.Auth
 
         private void CreateAccount_Click(object sender, MouseButtonEventArgs e)
         {
-            // Navigate to registration window
             var registerWindow = new RegisterWindow();
             registerWindow.Show();
             this.Close();

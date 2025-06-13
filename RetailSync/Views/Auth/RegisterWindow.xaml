@@ -198,9 +198,11 @@
                    Width="100" HorizontalAlignment="Center" Margin="0,0,50,20" Command="{Binding SignUpCommand}" Click="SignUpButton_Click"/>
 
                 <!-- Login Link -->
-                <TextBlock HorizontalAlignment="Center" FontSize="13" Margin="0,0,50,20" Foreground="#7F8C8D">
+                <TextBlock HorizontalAlignment="Center" FontSize="13"  Foreground="#7F8C8D">
                 <Run Text="Already have an account? "/>
-                <Run Text="Log in" Foreground="#3498DB" TextDecorations="Underline" Cursor="Hand"/>
+                <Button Click="Button_Click" Padding="0" Margin="0" Background="Transparent" VerticalAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0">
+                    <Run Text="Log in" Foreground="#3498DB" Cursor="Hand"/>
+                </Button>
                 </TextBlock>
             </StackPanel>
         </Grid>

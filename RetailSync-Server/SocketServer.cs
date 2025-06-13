@@ -79,7 +79,7 @@ namespace RetailSync_Server
                             {
                                 RequestId = message.RequestId,
                                 Success = true,
-                                Data = JsonSerializer.Serialize(userData)
+                                Data = JsonSerializer.Serialize(user)
                             };
                         }
                         return new SocketResponse

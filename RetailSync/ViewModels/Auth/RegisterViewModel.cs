@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using RetailSync.Core;
 using RetailSync.Socket;
+using RetailSync.Views.Auth;
 using RetailSync_Models.DbModels;
 
 namespace RetailSync.ViewModels.Auth
@@ -13,12 +14,6 @@ namespace RetailSync.ViewModels.Auth
 
         }
 
-        #region Properties
-        
-        /// <summary>
-        /// Properties of RegisterViewModel
-        /// </summary>
-        
         private string _firstName;
         public string FirstName
         {
@@ -37,7 +32,7 @@ namespace RetailSync.ViewModels.Auth
         public string Email
         {
             get { return _email; }
-            set { _email = value; OnPropertyChange(nameof(Email));}
+            set { _email = value; OnPropertyChange(nameof(Email)); }
         }
 
         private string _password;
@@ -54,22 +49,8 @@ namespace RetailSync.ViewModels.Auth
             set { _phoneNumber = value; OnPropertyChange(nameof(PhoneNumber)); }
         }
 
-        #endregion Properties
-
-        #region Commands
-
         public RelayCommand SignUpCommand => new RelayCommand(async _ =>
         {
-            await CreateAccount();
-        });
-
-        #endregion Commands
-
-        #region Methods
-
-        private async Task CreateAccount()
-        {
-
             bool connected = await _socketClient.ConnectAsync("localhost", 5000);
             if (!connected)
                 return;
@@ -80,13 +61,34 @@ namespace RetailSync.ViewModels.Auth
                 Name = $"{FirstName} {LastName}",
                 Email = Email,
                 Password = Password,
-                PhoneNumber = PhoneNumber
+                PhoneNumber = PhoneNumber,
+                Role = RetailSync_Models.UserRole.Employee
             };
-            await _socketClient.AddUserAsync(user);
+            var result = await _socketClient.AddUserAsync(user);
+            if (result.Success)
+            {
+                MessageBox.Show("Account Created", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                WindowManager.ChangeWindow<LoginWindow>(this, new LoginViewModel());
+            }
+            else
+                MessageBox.Show("An error occured!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-            MessageBox.Show("Account Registered");
+            ResetForm();
+        });
+
+        private void ResetForm()
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
+            PhoneNumber = string.Empty;
+            
+            OnPropertyChange(nameof(FirstName));
+            OnPropertyChange(nameof(LastName));
+            OnPropertyChange(nameof(Email));
+            OnPropertyChange(nameof(Password));
+            OnPropertyChange(nameof(PhoneNumber));
         }
-
-        #endregion Methods
     }
 }

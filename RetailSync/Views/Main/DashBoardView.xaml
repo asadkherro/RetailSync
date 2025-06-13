@@ -110,11 +110,11 @@
                     <!-- User Profile -->
                     <StackPanel Orientation="Horizontal">
                         <Border Width="35" Height="35" CornerRadius="17.5" Background="#E74C3C" Margin="0,0,10,0">
-                            <TextBlock Text="AL" Foreground="White" FontWeight="Bold" 
+                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontWeight="Bold" 
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Ann Lee" FontSize="14" FontWeight="Medium" Foreground="#2C3E50"/>
+                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" FontSize="14" FontWeight="Medium" Foreground="#2C3E50"/>
                             <TextBlock Text="▼" FontSize="10" Foreground="#7F8C8D" HorizontalAlignment="Right"/>
                         </StackPanel>
                     </StackPanel>

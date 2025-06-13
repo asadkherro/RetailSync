@@ -8,7 +8,8 @@
 
     public enum ENMsg
     {
-        AddUser = 1
+        ADD_USER = 1,
+        LOGIN_USER = 2
     }
 
 }

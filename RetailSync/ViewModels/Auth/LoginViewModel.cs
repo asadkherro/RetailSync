@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System.Text.Json;
+using System.Windows;
 using RetailSync.Core;
 using RetailSync.Socket;
+using RetailSync.ViewModels.Main;
+using RetailSync.Views.Main;
 using RetailSync_Models.DbModels;
 
 namespace RetailSync.ViewModels.Auth
@@ -10,8 +13,6 @@ namespace RetailSync.ViewModels.Auth
         private readonly SocketClient _socketClient = new SocketClient();
 
         public LoginViewModel() { }
-
-        #region Properties
 
         private string _email;
 		public string Email
@@ -27,39 +28,38 @@ namespace RetailSync.ViewModels.Auth
 			set { _password = value; OnPropertyChange(nameof(Password)); }
 		}
 
-        public bool ValidForm { get; set; }
-
-        #endregion Properties
-
-        #region Commands
-
         public RelayCommand LoginCommand => new RelayCommand(async _ => 
 		{
-            MessageBox.Show($"Login attempted for: {Email}\nPassword: {Password}",
-               "Login Attempt", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            var user = new UserModel
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test User",
-                Email = Email,
-                Password = Password
-            };
-
-            await _login(user);
-
-        });
-
-        #endregion Commands
-
-
-        private async Task _login(UserModel user)
-        {
             bool connected = await _socketClient.ConnectAsync("localhost", 5000);
             if (!connected)
                 return;
-            
-            var addUser = await _socketClient.AddUserAsync(user);
+
+            var loginRes = await _socketClient.LoginUserAsync(Email, Password);
+            if (loginRes != null && loginRes.Success && loginRes.Data != null)
+            {
+                MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                UserModel userModel = JsonSerializer.Deserialize<UserModel>(loginRes.Data);
+                if (userModel == null)
+                {
+                    MessageBox.Show("An error occured.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                ApplicationCache cache = ApplicationCache.Instance;
+                cache.SetAppUser(userModel);
+                WindowManager.ChangeWindow<HomeWindow>(this, new HomeViewModel());
+            }
+            else
+                MessageBox.Show($"Login failed", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            ResetForm();
+        });
+
+        private void ResetForm()
+        {
+            Email = string.Empty;
+            Password = string.Empty;
+            OnPropertyChange(nameof(Email));
+            OnPropertyChange(nameof(Password));
         }
     }
 }
