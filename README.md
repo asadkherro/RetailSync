@@ -46,10 +46,10 @@ Admins can:
 
 ## 🧰 Tech Stack
 
-- **Frontend**: WPF (Windows Presentation Foundation) / Angular (if applicable)
-- **Backend**: ASP.NET Core
-- **Database**: SQLite / SQL Server
-- **Charts**: Chart.js or similar libraries (for dashboard visuals)
+- **Frontend**: WPF (Windows Presentation Foundation)
+- **Backend**: .NET Core Console App with sockets. 
+- **Database**: SQLite
+- **Charts**: LiveCharts.WPF
 
 ---
 
@@ -67,6 +67,7 @@ Admins can:
    Press `F5` or use the "Start Debugging" option in Visual Studio.
 
 ## 📸 Screenshots
+
 **Register Page**
 
 ![image](https://github.com/user-attachments/assets/71f1bd8c-ff79-4e61-9235-daa2d0a71f0e)
@@ -75,16 +76,11 @@ Admins can:
 
 ![image](https://github.com/user-attachments/assets/6c4a5acc-3b95-4d41-b14f-cc5f92b6e544)
 
-
 **Products Page**
 
 ![image](https://github.com/user-attachments/assets/fb7d640d-664e-4079-9115-97fe238a41fe)
 
-
-
-
 ## 🤝 Contribution
-      Contributions are welcome!
-      Please open an issue to discuss your ideas or submit a pull request.
+  Contributions are welcome! Please open an issue to discuss your ideas or submit a pull request.
 ## 📄 License
-       This project is licensed under the MIT License.
+  This project is licensed under the MIT License.
